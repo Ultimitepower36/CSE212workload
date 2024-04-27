@@ -35,11 +35,18 @@ public static class ArraysTester {
     private static double[] MultiplesOf(double number, int length)
     {
         // TODO Problem 1 Start
-        // Remember: Using comments in your program, write down your process for solving this problem
-        // step by step before you write the code. The plan should be clear enough that it could
-        // be implemented by another person.
+        // Plan: In order to solve this problem, the best solution I can think of is to write a for loop that will run the desired number of times.
+        // An example of this would be for (int i = 0; i < 5; i++) in a case to run it 5 times. But for the function we will write length insead of 5.
+        //Below is the setup code for the following function.
+        double temp = 0;
+        List<double> templist = new List<double>();
+        //The following function takes the number and multiplies it by each number starting from 1 up to the desired length.
+        for (int i = 1; i < length+1; i++){
+            temp = number * i;
+            templist.Add(temp);
+        }
 
-        return new double[0]; // replace this return statement with your own
+        return templist.ToArray(); // this will return the list of multiples
     }
     
     /// <summary>
@@ -53,9 +60,17 @@ public static class ArraysTester {
     private static void RotateListRight(List<int> data, int amount)
     {
         // TODO Problem 2 Start
-        // Remember: Using comments in your program, write down your process for solving this problem
-        // step by step before you write the code. The plan should be clear enough that it could
-        // be implemented by another person.
-
+        // The easiest way that I can think of to do this, would to be to simply take the list and do the following.
+        // First, I make a new array the exact size of the desired list, and then for each item in the list, I add it to the desired
+        // index of the new array. For example if I wanted to rotate a list by five, then the new index would be index + 5. However if the new index
+        // exceeds the length of the array, then it loops back around to the beginning thanks to modulo (%).
+        int[] temp = new int[data.Count];
+        for (int i = 0; i < data.Count; i++){
+            int x = (i+amount)% data.Count;
+            temp[x]=data[i];
+        }
+        // the following code places the new arrangement of numbers into the list.
+        data.Clear();
+        data.AddRange(temp);
     }
 }
