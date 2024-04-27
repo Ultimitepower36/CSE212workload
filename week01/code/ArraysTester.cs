@@ -60,10 +60,11 @@ public static class ArraysTester {
     private static void RotateListRight(List<int> data, int amount)
     {
         // TODO Problem 2 Start
-        // The easiest way that I can think of to do this, would to be to simply take the list and do the following.
+        // Plan: The easiest way that I can think of to do this, would to be to simply take the list and do the following.
         // First, I make a new array the exact size of the desired list, and then for each item in the list, I add it to the desired
         // index of the new array. For example if I wanted to rotate a list by five, then the new index would be index + 5. However if the new index
-        // exceeds the length of the array, then it loops back around to the beginning thanks to modulo (%).
+        // exceeds the length of the array, then it loops back around to the beginning thanks to modulo (%). 
+        // So the equation is (index+amount)modulo list length
         int[] temp = new int[data.Count];
         for (int i = 0; i < data.Count; i++){
             int x = (i+amount)% data.Count;
