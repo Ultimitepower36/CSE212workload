@@ -11,23 +11,26 @@ public class CustomerService {
         // Test Cases
 
         // Test 1
-        // Scenario: 
-        // Expected Result: 
+        // Scenario: john, 1234, hgnds
+        // Expected Result: john (1234)  : hgnds
         Console.WriteLine("Test 1");
-
-        // Defect(s) Found: 
-
+        var service = new CustomerService(0);
+        service.AddNewCustomer();
+        service.ServeCustomer();
+        // Defect(s) Found: Costomer deleted before printed
         Console.WriteLine("=================");
 
         // Test 2
         // Scenario: 
-        // Expected Result: 
+        // Expected Result: "error message" John 234 234 "error message"
         Console.WriteLine("Test 2");
-
-        // Defect(s) Found: 
-
+        var service2 = new CustomerService(1);
+        service2.AddNewCustomer();
+        service2.AddNewCustomer();
+        service2.ServeCustomer();
+        service2.ServeCustomer();
+        // Defect(s) Found: add new customer not working properly. remove costomer not displaying error
         Console.WriteLine("=================");
-
         // Add more Test Cases As Needed Below
     }
 
@@ -67,7 +70,7 @@ public class CustomerService {
     /// </summary>
     private void AddNewCustomer() {
         // Verify there is room in the service queue
-        if (_queue.Count > _maxSize) {
+        if (_queue.Count == _maxSize) {
             Console.WriteLine("Maximum Number of Customers in Queue.");
             return;
         }
@@ -88,9 +91,13 @@ public class CustomerService {
     /// Dequeue the next customer and display the information.
     /// </summary>
     private void ServeCustomer() {
-        _queue.RemoveAt(0);
+        if (_queue.Count == 0) {
+            Console.WriteLine("No customers to serve.");
+            return;
+        }
         var customer = _queue[0];
         Console.WriteLine(customer);
+        _queue.RemoveAt(0);
     }
 
     /// <summary>
