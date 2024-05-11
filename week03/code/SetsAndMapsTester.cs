@@ -107,10 +107,29 @@ public static class SetsAndMapsTester {
     /// that there were no duplicates) and therefore should not be displayed.
     /// </summary>
     /// <param name="words">An array of 2-character words (lowercase, no duplicates)</param>
+    public static string Reverse( string s )
+    {
+        char[] charArray = s.ToCharArray();
+        Array.Reverse(charArray);
+        return new string(charArray);
+    }
     private static void DisplayPairs(string[] words) {
         // To display the pair correctly use something like:
         // Console.WriteLine($"{word} & {pair}");
         // Each pair of words should displayed on its own line.
+        var found = new HashSet<string>(words);
+        foreach (var letters in words)
+        {
+            // Look in set to see if letter was seen before
+            var word = letters;
+            var reverse = Reverse(letters);
+            if(found.Contains(word) & found.Contains(reverse) & (word != reverse))
+                Console.WriteLine($"{word} & {reverse}");
+                found.Remove(word);
+                found.Remove(reverse);
+            // Otherwise we will add it to the set and move on
+        }
+        
     }
 
     /// <summary>
@@ -132,8 +151,11 @@ public static class SetsAndMapsTester {
         foreach (var line in File.ReadLines(filename)) {
             var fields = line.Split(",");
             // Todo Problem 2 - ADD YOUR CODE HERE
+                if (!degrees.ContainsKey(fields[3]))
+                    degrees[fields[3]] = 1;
+                else
+                    degrees[fields[3]] += 1;
         }
-
         return degrees;
     }
 
@@ -158,7 +180,22 @@ public static class SetsAndMapsTester {
     /// #############
     private static bool IsAnagram(string word1, string word2) {
         // Todo Problem 3 - ADD YOUR CODE HERE
-        return false;
+        
+        string a = word1.ToLower().Replace(" ", "");
+        string b = word2.ToLower().Replace(" ", "");
+        string aa = String.Concat(a.OrderBy(c => c));
+        string bb = String.Concat(b.OrderBy(c => c));
+
+
+        if (aa == bb)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+        
     }
 
     /// <summary>
