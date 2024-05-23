@@ -147,7 +147,11 @@ public static class RecursionTester {
     /// </summary>
     public static int SumSquaresRecursive(int n) {
         // TODO Start Problem 1
-        return 0;
+        if (n == 0){
+            return 0;
+        }
+        int sum = (int)(Math.Pow(n, 2) + SumSquaresRecursive(n - 1));
+        return sum;
     }
 
     /// <summary>
@@ -171,6 +175,17 @@ public static class RecursionTester {
     /// </summary>
     public static void PermutationsChoose(string letters, int size, string word = "") {
         // TODO Start Problem 2
+        if (size == 0)
+        {
+            Console.WriteLine(word);
+            return;
+        }
+        for(int i=0; i<letters.Length; i++)
+        {
+
+            var lettersLeft = letters.Remove(i,1);
+            PermutationsChoose(lettersLeft, size-1, word+letters[i]);
+        }
     }
 
     /// <summary>
@@ -219,6 +234,9 @@ public static class RecursionTester {
     /// until the memoization is implemented.
     /// </summary>
     public static decimal CountWaysToClimb(int s, Dictionary<int, decimal>? remember = null) {
+        if (remember == null)
+            remember = new Dictionary<int, decimal>();
+        
         // Base Cases
         if (s == 0)
             return 0;
@@ -230,7 +248,11 @@ public static class RecursionTester {
             return 4;
 
         // Solve using recursion
-        decimal ways = CountWaysToClimb(s - 1) + CountWaysToClimb(s - 2) + CountWaysToClimb(s - 3);
+        if(remember.ContainsKey(s))
+            return remember[s];
+
+        decimal ways = CountWaysToClimb(s - 1, remember) + CountWaysToClimb(s - 2, remember) + CountWaysToClimb(s - 3, remember);
+        remember[s]= ways;
         return ways;
     }
 
@@ -249,6 +271,16 @@ public static class RecursionTester {
     /// </summary>
     public static void WildcardBinary(string pattern) {
         // TODO Start Problem 4
+        if (pattern.Contains("*")){
+            var index = pattern.IndexOf("*");
+            var left = pattern.Substring(0, index);
+            var right = pattern.Substring(index + 1);
+             WildcardBinary(left + "0" + right);
+              WildcardBinary(left + "1" + right);
+        }
+        else{
+            Console.WriteLine($"{pattern}");
+        }
     }
 
     /// <summary>
@@ -265,7 +297,32 @@ public static class RecursionTester {
 
         // TODO Start Problem 5
         // ADD CODE HERE
-
+        if (maze.IsEnd(x,y) == true){
+            Console.WriteLine(currPath.AsString());
+            return;
+        }
+        else{
+            if ( maze.IsValidMove(currPath, x+1, y) == true){
+                x += 1;
+                currPath.Add((x,y));
+            }
+            if (maze.IsValidMove(currPath, x, y+1) == true){
+                y += 1;
+                currPath.Add((x,y));
+            }
+            next = maze.IsValidMove(currPath, x-1, y);
+            if (next == true){
+                x -= 1;
+                currPath.Add((x,y));
+            }
+            next = maze.IsValidMove(currPath, x, y-1);
+            if (next == true){
+                y -= 1;
+                currPath.Add((x,y));
+            }
+            SolveMaze(maze, x, y, currPath);
+        }
+        
         // Console.WriteLine(currPath.AsString()); // Use this to print out your path when you find the solution
     }
 }
